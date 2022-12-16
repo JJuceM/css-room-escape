@@ -1,38 +1,412 @@
-.App {
+*{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.rightFrame{
+  width: 375px;
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  background: #282626;
+}
+.leftFrame{
+  width: calc(100% - 375px);
+  height: 100%;
   text-align: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  background: #3b3b3b;
+}
+header{
+  height: 25px;
+  font-size: 15px;
+  padding: 12px 15px 12px 20px;
+  color: aliceblue;
+  text-align: left;
+}
+.headerMenu{
+  float: right;
+  padding-right: 10px;
+}
+.headerMenu > a > img{
+  width: 20px;
+  vertical-align: -2px;
+}
+.order {
+  color: rgba(255,255,255,.3);
+  font-size: 45px;
+  margin: 0;
+  font-weight: 400;
+  text-align: center;
+  padding: 20px 30px;
+}
+.viewer{
+  position: relative;
+  text-align: left;
+  width: 90%;
+  margin: 0 auto;
+  border: solid 10px rgba(0,0,0,.35);
+  overflow: hidden;
+}
+.viewer *{
+  font-size: 14px;
+  line-height: 150%;
+  padding: 0;
+  margin: 0;
+}
+.viewer-frame{
+  float: left;
+  width: 50%;
+}
+.viewer-header{
+  text-align: left;
+  padding: 10px 15px;
+  background: rgba(0,0,0,.15);
+  border-top: solid 1px rgba(255,255,255,.05);
+  border-bottom: solid 1px rgba(255,255,255,.05);
+  border-radius: 2px 2px 0 0;
+  color: rgba(255,255,255,.6);
+}
+.viewer-name{
+  float: right;
+  opacity: .5;
+}
+.viewer-file{
+  padding: 10px 10px 10px 46px;
+  position: relative;
+  min-height: 432px;
+}
+.viewer-css{
+  background: #efefef;
+  color: #AAA;
+}
+.viewer-css > .lines{
+  color: #999;
+  background: #DDD;
+}
+.viewer-html > .viewer-file{
+  background: rgba(0,0,0,.3);
+}
+.viewer-html .lines{
+  color: #666;
+  border-right: solid 1px #333;
+}
+.lines{
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: menlo, monospace;
+  padding: 10px 10px;
+  height: 100%;
+  line-height: 150%;
+  text-align: right;
+}
+.viewer-frame:last-child{
+  border-right: solid 1px rgba(255,255,255,.03);
+  border-bottom: solid 1px rgba(255,255,255,.03);
+}
+.viewer-field{
+  line-height: 150%;
+  color: rgba(255,255,255,.3);
+}
+.viewer-field div{
+  padding-left: 20px;
+}
+.viewer-field > div {
+  padding-left: 0px;
+}
+.input-css{
+  background: rgba(62,203,255,.3);
+  -webkit-animation: input .5s infinite;
+}
+.viewer input{
+  font-family: menlo, monospace;
+  color: #333;
+  border: none;
+  width: calc(100% - 44px);
+}
+.enter-btn{
+  background: #ddd;
+  display: block;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  padding: 2px 7px 2px 7px;
+  color: #666;
+  border: solid 3px #999;
+  border-width: 1px 1px 6px 1px;
+  position: absolute;
+  font-size: 9px;
+  cursor: pointer;
+  top: 7px;
+  right: 7px;
+  z-index: 9;
+}
+/* 임의의 영역 생성 */
+.scrollBar {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* 아래의 모든 코드는 영역::코드로 사용 */
+.scrollBar::-webkit-scrollbar {
+  width: 7px;  /* 스크롤바의 너비 */
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.scrollBar::-webkit-scrollbar-thumb {
+  height: 20%; /* 스크롤바의 길이 */
+  background: #666; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.scrollBar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.46);  /*스크롤바 뒷 배경 색상*/
+}
+.leftFrame:hover .scrollBar{
+  overflow-y: scroll;
+}
+.cover-bar{
+  width: 7px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 375px;
+  -webkit-transition: all .5s;
+  opacity: 1;
+  background-color: #3b3b3b;
+}
+.leftFrame:hover .cover-bar{
+  opacity: 0;
+  -webkit-transition: all .5s;
+}
+.bottomText{
+  text-align: center;
+  padding: 20px 0;
+  width: 725px;
+  color: rgba(255,255,255,.3);
+  font-size: 15px;
+  margin: 0 auto;
+  font-weight: 400;
+  display: inline;
+}
+.bottomText a{
   color: white;
+  opacity: .5;
+  text-decoration: none;
+}
+.wrap{
+  padding: 20px;
+  height: 100%;
+  background: rgba(0,0,0,.2);
+}
+.level-header{
+  font-size: 25px;
+  margin: 0;
+  padding: 0 0 10px 0;
+  color: #777;
+}
+.level-header .check{
+  position: relative;
+  display: inline-block;
+  margin-left: 8px;
+  width: 12px;
+  height: 20px;
+  border: solid 3px white;
+  border-width: 0 4px 4px 0;
+  opacity: .2;
+  top: -3px;
+  transform: rotate(40deg);
+}
+.level-nav{
+  position: absolute;
+  right: 60px;
+  top: 20px;
+  line-height: 0;
+}
+.level-nav a{
+  padding: 5px;
+  position: relative;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  opacity: .25;
+  transition: opacity .2s ease-out;
+}
+.level-nav a:hover {
+  opacity: .4;
+}
+.level-nav a:after {
+  content: "";
+  height: 18px;
+  width: 18px;
+  position: absolute;
+  border: solid 2px white;
+  border-width: 2px 2px 0 0;
+  transform-origin: center center;
+  top: 6px;
+  box-sizing: border-box;
+}
+.level-nav .previous:after {
+  transform: rotate(-135deg);
+  right: 2px;
+}
+.level-nav .next:after {
+  transform: rotate(45deg);
+  left: 2px;
 }
 
-.App-link {
-  color: #61dafb;
+.level-nav a.link-jiggle {
+  animation: linkJiggle .2s ease-out;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes linkJiggle {
+  0% {
+      transform: scale(1);
   }
-  to {
-    transform: rotate(360deg);
+  10% {
+      transform: scaleX(.87) scaleY(.8);
+
   }
+  40% {
+      transform: scale(1.13);
+  }
+
+}
+.level-progress{
+  width: 100%;
+  background: rgba(0,0,0,.4);
+  margin-bottom: 40px;
+}
+.level-progress .progress{
+  background: rgba(255,255,255,.2);
+  height: 2px;
+  position: relative;
+  width: 50%;
+}
+.level-progress .progress:after{
+  content: "";
+  position: absolute;
+  right: -6px;
+  top: -3px;
+  height: 4px;
+  width: 4px;
+  border: solid 2px #2a231d;
+  background: rgba(255,255,255,.5);
+  -webkit-border-radius: 5px;
+}
+.level-menu-toggle-wrap{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 30px;
+  padding: 4px 2px;
+  opacity: .25;
+  transition: linear all .05s;
+  cursor: pointer;
+}
+.level-menu-toggle{
+  height: 2px;
+  width: 27px;
+  background: rgba(255,255,255,1);
+  transition: all .15s ease-out;
+  cursor: pointer;
+  position: relative;
+  top: 10px;
+}
+.level-menu-toggle:before {
+  top: -10px;
+  transform-origin: left;
+}
+.level-menu-toggle:after {
+  top: 10px;
+  transform-origin: left;
+}
+.level-menu-toggle:before, .level-menu-toggle:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,1);
+  transition: all .1s ease-out;
+}
+.level-menu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow-y: hidden;
+  transition: all .15s ease-in-out;
+  background: rgba(0,0,0,1);
+  background: #1b1813;
+  left: 500px;
+  padding: 0;
+  width: 100%;
+}
+.menu-open .level-menu {
+  left: 0;
+}
+
+.levels {
+  padding-bottom: 150px;
+}
+
+.level-menu h2 {
+  font-size: 22px;
+  color: white;
+  opacity: .4;
+  font-weight: normal;
+  margin: 0;
+  padding: 23px 0 14px 16px;
+}.level-menu .levels a {
+   display: block;
+   cursor: pointer;
+   padding: 5px 12px 5px 22px;
+   color: #777;
+}
+
+.level-menu .level-syntax {
+  position: relative;
+  display: inline-block;
+}
+
+.level-menu .levels a.completed .checkmark {
+  opacity: .55;
+  border: solid 3px #4cbb4a;
+  border-width: 0 3px 3px 0;
+}
+
+.level-menu .levels a .checkmark {
+  position: relative;
+  display: inline-block;
+  margin-right: 14px;
+  width: 8px;
+  height: 13px;
+  opacity: 2;
+  border: solid 3px white;
+  border-width: 0 3px 3px 0;
+  opacity: .2;
+  top: -1px;
+  transform: rotate(40deg);
+}
+
+.level-menu .levels a.current {
+  font-weight: bold;
+  color: #AAA;
+  background: rgba(255,255,255,.07);
+}
+
+.level-menu .levels a:hover {
+  background: rgba(255,255,255,.05);
+}
+
+.level-menu .level-number {
+  opacity: .6;
+  min-width: 24px;
+  display: inline-block;
 }
