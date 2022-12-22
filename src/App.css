@@ -113,7 +113,12 @@ header{
 }
 .viewer-field{
   line-height: 150%;
+}
+.viewer-field *{
   color: rgba(255,255,255,.3);
+}
+.markup .enhance {
+  color: rgba(255,255,255,.7);
 }
 .viewer-field div{
   padding-left: 20px;
@@ -121,9 +126,53 @@ header{
 .viewer-field > div {
   padding-left: 0px;
 }
-.input-css{
+.viewer input.input-css{
   background: rgba(62,203,255,.3);
-  -webkit-animation: input .5s infinite;
+  animation: input .5s infinite;
+  -moz-animation: input .5s infinite;
+}
+.enterhit{
+  -webkit-animation: enterhit .1s 1;
+  animation: enterhit .1s 1;
+}
+.shake {
+  animation: shake .1s 5;
+}
+@keyframes input {
+  50% { background:none ; }
+}
+
+@-moz-keyframes input {
+  50% { background:none ; }
+}
+
+.viewer input:focus {
+  outline: none;
+  border-color: #555;
+}
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  25% {  transform: translateX(-5px); }
+  50% {  transform: translateX(0); }
+  75% {  transform: translateX(5px); }
+}
+@-webkit-keyframes enterhit {
+  50% {
+    border-width: 1px 1px 2px 1px;
+    top: 12px;
+  }
+}
+@keyframes enterhit {
+  50% {
+    border-width: 1px 1px 2px 1px;
+    top: 12px;
+  }
+}
+.plus{
+  color: #666;
+  padding: 0px 4px;
+  font-size: 40px;
+  display: none;
 }
 .viewer input{
   font-family: menlo, monospace;
@@ -212,7 +261,12 @@ header{
   padding: 0 0 10px 0;
   color: #777;
 }
-.level-header .check{
+.level-header.completed .checkmark {
+  opacity: .7;
+  border: solid 3px #4cbb4a;
+  border-width: 0 4px 4px 0;
+}
+.level-header .checkmark{
   position: relative;
   display: inline-block;
   margin-left: 8px;
@@ -301,7 +355,7 @@ header{
   background: rgba(255,255,255,.5);
   -webkit-border-radius: 5px;
 }
-.level-menu-toggle-wrap{
+.level-menu-toggle-wrapper{
   position: absolute;
   top: 20px;
   right: 20px;
@@ -310,6 +364,9 @@ header{
   opacity: .25;
   transition: linear all .05s;
   cursor: pointer;
+}
+.level-menu-toggle-wrapper:hover {
+  opacity: .4;
 }
 .level-menu-toggle{
   height: 2px;
@@ -340,16 +397,29 @@ header{
   position: absolute;
   top: 0;
   bottom: 0;
-  overflow-y: hidden;
   transition: all .15s ease-in-out;
   background: rgba(0,0,0,1);
-  background: #1b1813;
+  background: #282626;
   left: 500px;
   padding: 0;
   width: 100%;
 }
-.menu-open .level-menu {
-  left: 0;
+.level-menu:hover .scrollBar{
+  overflow-y: scroll;
+}
+.cover-bar2{
+  width: 7px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  -webkit-transition: all .5s;
+  opacity: 1;
+  background-color: #282626;
+}
+.level-menu:hover .cover-bar2{
+  opacity: 0;
+  -webkit-transition: all .5s;
 }
 
 .levels {
@@ -409,4 +479,18 @@ header{
   opacity: .6;
   min-width: 24px;
   display: inline-block;
+}
+.menu-open .level-menu {
+  left: 0;
+}
+.menu-open .level-menu-toggle {
+  background: rgba(255,255,255,0);
+}
+.menu-open .level-menu-toggle:before {
+  top: -9px;
+  transform: rotate(45deg);
+}
+.menu-open .level-menu-toggle:after {
+  top: 10px;
+  transform: rotate(-45deg);
 }

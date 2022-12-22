@@ -1,10 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
+import './main.js';
+import './levels.js';
 
 function App() {
   return (
-    <main>
-      <div>
+    <html>
+      <head>
+        
+      </head>
+      <body>
   <div className="leftFrame scrollBar">
     <header>
       CSS 방탈출 게임
@@ -31,7 +35,8 @@ function App() {
             11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20
           </div>
           <input className="input-css" type="text" placeholder="CSS 선택자 입력" />
-          <div className="enter-btn">입력</div>
+          <span className='plus'>+</span>
+          <div className="enter-btn enterhit">입력</div>
           <div>
             {'{'}<br />
             /* 스타일은 여기에 적용됩니다. */<br />
@@ -55,11 +60,7 @@ function App() {
             11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20
           </div>
           <div className="viewer-field">
-            <div>
-              &lt;div class="table"&gt;
-              <div>&lt;door /&gt;</div>
-              &lt;/div&gt;
-            </div>
+            
           </div>
         </div>
       </div>
@@ -76,10 +77,10 @@ function App() {
   <div className="rightFrame">
     <div className="wrap">
       <h1 className="level-header">
-        <span>
+        <span className='level-text'>
           Level 1 of 2
         </span>
-        <span className="check">
+        <span className="checkmark">
         </span>
       </h1>
       <div className="level-nav">
@@ -90,65 +91,24 @@ function App() {
         <div className="progress">
         </div>
       </div>
-      <div className="level-menu-toggle-wrap">
-        <div className="level-menu-toggle">
-        </div>
-      </div>
       <div style={{textAlign: 'center'}}>
         <img style={{height: '700px', width: '100%'}} src="img/inventory.png" />
       </div>
     </div>
     <div className="level-menu scrollBar">
       <h2>레벨을 선택하세요</h2>
-      <div className="levels">
-        <a className="current">
-          <span className="checkmark" />
-          <span className="level-number">1</span>
-          Door
-        </a>
-        <a><span className="checkmark" /><span className="level-number">2</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">3</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">4</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">5</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">6</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">7</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">8</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">9</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">10</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">11</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">12</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">13</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">14</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">15</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">16</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">17</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">18</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">19</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">20</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">21</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">22</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">23</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">24</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">25</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">26</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">27</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">28</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">29</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">30</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">31</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">32</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">33</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">34</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">35</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">36</span>Burn Box</a>
-        <a><span className="checkmark" /><span className="level-number">37</span>Burn Box</a>
+      <div className="levels">       
+        
       </div>
-      <div className="cover-bar" />
+      <div className="cover-bar2" />
+    </div>
+    <div className='level-menu-toggle-wrapper'>
+      <div className='level-menu-toggle'>
+      </div>
     </div>
   </div>
-</div>
-
-    </main>
+</body>
+    </html>
   );
 }
 
