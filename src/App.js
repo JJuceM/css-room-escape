@@ -19,10 +19,21 @@ function App() {
         </a>
       </span>
     </header>
-    
     <h2 className="order">방을 탈출하세요</h2>
-    <div style={{height: '450px', border: 'solid 3px #999999', width: '90%', margin: '0 auto', marginBottom: '30px'}}>
+
+    <div className='game-wrapper'>
+      <div className='room-wrapper'>
+        <div className='room-surface'>
+          <img src="img/roomTile.png"/>
+        </div>
+        <div className='nametags'></div>
+        <div className='room'></div>
+        
+      </div>
+      
     </div>
+
+
     <div className="viewer">
       <div className="viewer-frame">
         <div className="viewer-header">

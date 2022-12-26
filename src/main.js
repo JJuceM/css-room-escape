@@ -1,11 +1,23 @@
 import React from "react";
 import levels from './levels';
 import $ from "jquery";
+/*
+  Function Reference
+  ==================
 
-var level;  
-var currentLevel = parseInt(localStorage.currentLevel,10) || 0; 
-var levelTimeout = 1000; 
-var finished = false;    
+  loadLevel() - loads up the level
+  fireRule() - fires the css rule
+  updateProgressUI() - adds a checkmark to the level menu and header when a correct guess is made, removes it if incorrect
+  hideTooltip() - hides markup tooltip that hovers over the elements
+  showHelp() - Loads help text & examples for each level
+
+  ..to be continued!
+*/
+
+var level;  // Holds current level info
+var currentLevel = parseInt(localStorage.currentLevel,10) || 0; // Keeps track of the current level Number (0 is level 1)
+var levelTimeout = 1000; // Delay between levels after completing
+var finished = false;    // Keeps track if the game is showing the Your Rock! screen (so that tooltips can be disabled)
 
 var blankProgress = {
   totalCorrect : 0,
@@ -14,6 +26,7 @@ var blankProgress = {
   guessHistory : {}
 }
 
+// Get progress from localStorage, or start from scratch if we don't have any
 var progress = JSON.parse(localStorage.getItem("progress")) || blankProgress;
 
 
@@ -58,12 +71,13 @@ $(document).ready(function(){
     return false;
   });
 
-  // progress 리셋 and progress indicators
+  // Resets progress and progress indicators
   $(".reset-progress").on("click",function(){
     resetProgress();
     return false;
   })
 
+  //Handle inputs from the input box on enter
   $("input").on("keypress",function(e){
     e.stopPropagation();
     if(e.keyCode ==  13){
@@ -86,17 +100,43 @@ $(document).ready(function(){
     $("input").focus();
   });
 
+  //Add tooltips
+  $(".room").on("mouseover","*",function(e){
+    e.stopPropagation();
+    showTooltip($(this));
+  });
+
+  //Shows the tooltip on the room
+  $(".viewer-field").on("mouseover","div *",function(e){
+    var el = $(this);
+    var markupElements = $(".viewer-field *");
+    var index = markupElements.index(el) -1;
+    showTooltip($(".room *").eq(index));
+    e.stopPropagation();
+  });
+
+  // Shows the tooltip on the room
+  $(".viewer-field").on("mouseout","*",function(e){
+    e.stopPropagation();
+    hideTooltip();
+  });
+
+  $(".room").on("mouseout","*", function(e){
+    hideTooltip();
+    e.stopPropagation();
+  });
+
   $(".enter-btn").on("click",function(){
     enterHit();
   })
 
-  $(".table-wrapper,.table-edge").css("opacity",0);
+  $(".room-wrapper,.table-edge").css("opacity",0);
 
   buildLevelmenu();
 
   setTimeout(function(){
     loadLevel();
-    $(".table-wrapper,.table-edge").css("opacity",1);
+    $(".room-wrapper,.table-edge").css("opacity",1);
   },50);
 });
 
@@ -106,6 +146,11 @@ function addAnimation(el, className){
     $(e.target).removeClass("link-jiggle");
   })
 }
+
+// Reset all progress
+// * Removes checkmarks from level header and list
+// * Scrolls level menu to top
+// * Resets the progress object
 
 function resetProgress(){
   currentLevel = 0;
@@ -119,6 +164,9 @@ function resetProgress(){
   $("#mCSB_2_container").css("top",0); // Strange element to reset scroll due to scroll plugin
 }
 
+
+//Checks if the level is completed
+
 function checkCompleted(levelNumber){
   if(progress.guessHistory[levelNumber]){
     if(progress.guessHistory[levelNumber].correct){
@@ -130,6 +178,9 @@ function checkCompleted(levelNumber){
     return false;
   }
 }
+
+
+// Builds the slide-out level menu
 
 function buildLevelmenu(){
   for(var i = 0; i < levels.length; i++){
@@ -159,6 +210,69 @@ function openMenu(){
   $(".rightFrame").addClass("menu-open");
 }
 
+
+// Hides & shows the tooltip that appears when an eleemnt
+// on the room or the editor is hovered over.
+
+function hideTooltip(){
+  $(".enhance").removeClass("enhance");
+  $("[data-hovered]").removeAttr("data-hovered");
+  $(".helper").hide();
+}
+
+function showTooltip(el){
+  if(finished){
+    return; // Only show tooltip if the game isn't finished yet
+  }
+
+  el.attr("data-hovered",true);
+  var tableElements = $(".room *");
+  var index = tableElements.index(el);
+  var that = el;
+  $(".viewer-field > div *").eq(index).addClass("enhance").find("*").addClass("enhance");
+
+  var helper = $(".helper");
+
+  var pos = el.offset();
+  helper.css("top",pos.top - 65);
+  helper.css("left",pos.left + (el.width()/2));
+
+  var helpertext;
+
+  var elType = el.get(0).tagName;
+  elType = elType.toLowerCase();
+  helpertext = '<' + elType;
+
+  var elClass = el.attr("class");
+
+  if(elClass) {
+    if(elClass.indexOf("strobe") > -1){
+      elClass = elClass.replace("strobe","");
+    }
+  }
+
+  if(elClass) {
+    helpertext = helpertext + ' class="' + elClass + '"';
+  }
+
+  var elFor = el.attr("for");
+
+  if(elFor) {
+    helpertext = helpertext + ' for="' + elFor + '"';
+  }
+
+  var id = el.attr("id");
+  if(id) {
+    helpertext = helpertext + ' id="' + id + '"';
+  }
+
+  helpertext = helpertext + '></' + elType + '>';
+  helper.show();
+  helper.text(helpertext);
+}
+
+
+//Animate the enter button
 function enterHit(){
   $(".enter-btn").removeClass("enterhit");
   $(".enter-btn").width($(".enter-btn").width());
@@ -167,6 +281,8 @@ function enterHit(){
   handleInput(value);
 }
 
+
+//Parses text from the input field
 function handleInput(text){
   if(parseInt(text,10) > 0 && parseInt(text,10) < levels.length+1) {
     currentLevel = parseInt(text,10) - 1;
@@ -176,8 +292,52 @@ function handleInput(text){
   fireRule(text);
 }
 
+// Loads up the help text & examples for each level
+function showHelp() {
+
+  var helpTitle = level.helpTitle || "";
+  var help = level.help || "";
+  var examples = level.examples ||[];
+  var selector = level.selector || "";
+  var syntax = level.syntax || "";
+  var syntaxExample = level.syntaxExample || "";
+  var selectorName = level.selectorName || "";
+
+  $(".display-help .syntax").html(syntax);
+  $(".display-help .syntax-example").html(syntaxExample);
+  $(".display-help .selector-name").html(selectorName);
+  $(".display-help .title").html(helpTitle);
+  $(".display-help .examples").html("");
+  $(".display-help .examples-title").hide(); // Hide the "Examples" heading
+
+  for(var i = 0; i < examples.length; i++){
+    var example = $("<div class='example'>" + examples[i] + "</div>");
+    $(".display-help .examples").append(example);
+    $(".display-help .examples-title").show(); // Show it if there are examples
+  }
+
+  $(".display-help .hint").html(help);
+  $(".display-help .selector").text(selector);
+}
+
+function resetTable(){
+  $(".display-help").removeClass("open-help");
+  $(".clean,.strobe").removeClass("clean,strobe");
+  $(".clean,.strobe").removeClass("clean,strobe");
+  $("input").addClass("input-css");
+  $(".room *").each(function(){
+    $(this).width($(this).width());
+    // $(this).removeAttr("style");
+    // TODO - needed?? Probably not, everything gets removed anyway
+  });
+
+  var tableWidth = $(".room").outerWidth();
+  $(".room-wrapper, .table-edge").width(tableWidth);
+}
+
 function fireRule(rule) {
 
+  // prevent cheating
   if(rule === ".strobe") {
     rule = null;
   }
@@ -188,19 +348,38 @@ function fireRule(rule) {
     $(this).width($(this).width());
     $(this).removeAttr("style");
   });
-  var baseTable = $('.table');
+
+  /*
+  * Sean Nessworthy <sean@nessworthy.me>
+  * On 03/17/14
+  *
+  * Allow [div][.table] to preceed the answer.
+  * Makes sense if div.table is going to be included in the HTML viewer
+  * and users want to try and use it in their selectors.
+  *
+  * However, if it is included as a specific match, filter it out.
+  * This resolves the  "Match all the things!" level from beheading the table too.
+  * Relatedly, watching that happen made me nearly spill my drink.
+  */
+
+  // var baseTable = $('.table-wrapper > .table, .table-wrapper > .nametags, .table-wrapper > .table-surface');
+  var baseTable = $('.room');
+
+  // Check if jQuery will throw an error trying the mystery rule
+  // If it errors out, change the rule to null so the wrong-guess animation will work
   try {
-    $(".table").find(rule).not(baseTable);
+    $(".room").find(rule).not(baseTable);
   }
   catch(err) {
     rule = null;
   }
 
-  var ruleSelected = $(".table").find(rule).not(baseTable);            
-  var levelSelected = $(".table").find(level.selector).not(baseTable); 
+  var ruleSelected = $(".room").find(rule).not(baseTable);            // What the correct rule finds
+  var levelSelected = $(".room").find(level.selector).not(baseTable); // What the person finds
 
   var win = false;
 
+  // If nothing is selected
   if(ruleSelected.length == 0) {
     $(".viewer").addClass("shake");
   }
@@ -237,6 +416,8 @@ function fireRule(rule) {
     $(".result").fadeOut();
   }
 
+  // If answer is correct, let's track progress
+
   if(win){
     trackProgress(currentLevel-1, "correct");
   } else {
@@ -244,6 +425,8 @@ function fireRule(rule) {
   }
 }
 
+// Marks an individual number as completed or incompleted
+// Just in the level heading though, not the level list
 function updateProgressUI(levelNumber, completed){
   if(completed) {
     $(".levels a:nth-child("+ (levelNumber+1) + ")").addClass("completed");
@@ -266,7 +449,7 @@ function trackProgress(levelNumber, type){
 
   if(type == "incorrect"){
     if(levelStats.correct == false) {
-      levelStats.incorrectCount++;
+      levelStats.incorrectCount++; // Only update the incorrect count until it is guessed correctly
     }
   } else {
     if(levelStats.correct == false) {
@@ -278,6 +461,7 @@ function trackProgress(levelNumber, type){
     }
   }
 
+  // Increments the completion percentage by 10%, and sends an event every time
   var increment = .1;
   if(progress.percentComplete >= progress.lastPercentEvent + increment) {
     progress.lastPercentEvent = progress.lastPercentEvent + increment;
@@ -287,18 +471,25 @@ function trackProgress(levelNumber, type){
   localStorage.setItem("progress",JSON.stringify(progress));
 }
 
+
+// Sends event to Google Analytics
+// Doesn't send events if we're on localhost, as the ga variable is set to false
+
 function winGame(){
-  $(".table").html('<span class="winner"><strong>You did it!</strong><br>You rock at CSS.</span>');
+  $(".room").html('<span class="winner"><strong>You did it!</strong><br>You rock at CSS.</span>');
   addNametags();
   finished = true;
+  resetTable();
 }
 
 function checkResults(ruleSelected,levelSelected,rule){
-  var ruleTable = $(".table").clone();
+  var ruleTable = $(".room").clone();
   ruleTable.find(".strobe").removeClass("strobe");
   ruleTable.find(rule).addClass("strobe");
-  return($(".table").html() == ruleTable.html());
+  return($(".room").html() == ruleTable.html());
 }
+
+// Returns all formatted markup within an element...
 
 function getMarkup(el){
   var hasChildren = el.children.length > 0 ? true : false;
@@ -326,12 +517,15 @@ function getMarkup(el){
   return wrapperEl;
 }
 
+//new board loader...
+
 function loadBoard(){
 
-  var boardString = level.board;
-  var boardMarkup = "";
-  var tableMarkup = "";
-  var editorMarkup = "";
+  var boardString = level.board;  // just a placeholder to iterate over...
+  var boardMarkup = ""; // what is this
+  var tableMarkup = ""; // what is this
+  var editorMarkup = ""; // this is a string that represents the HTML
+  showHelp();
 
   var markupHolder = $("<div/>")
 
@@ -342,20 +536,21 @@ function loadBoard(){
     }
   });
 
-  $(".table").html(level.boardMarkup);
+  $(".room").html(level.boardMarkup);
   addNametags();
-  $(".table *").addClass("pop");
+  $(".room *").addClass("pop");
 
 
-  $(".viewer-field").html('<div>&ltdiv class="table"&gt' + markupHolder.html() + '&lt/div&gt</div>');
+  $(".viewer-field").html('<div>&ltdiv class="room"&gt' + markupHolder.html() + '&lt/div&gt</div>');
 }
 
+// Adds nametags to the items on the table
 function addNametags(){
   $(".nametags *").remove();
-  $(".table-wrapper").css("transform","rotateX(0)");
-  $(".table-wrapper").width($(".table-wrapper").width());
+  $(".room-wrapper").css("transform","rotateX(0)");
+  $(".room-wrapper").width($(".room-wrapper").width());
 
-  $(".table *").each(function(){
+  $(".room *").each(function(){
     if($(this).attr("for")){
       var pos = $(this).position();
       var width = $(this).width();
@@ -366,14 +561,17 @@ function addNametags(){
     }
   });
 
-  $(".table-wrapper").css("transform","rotateX(20deg)");
+  $(".room-wrapper").css("transform","rotateX(360deg)");
 }
 
 
 function loadLevel(){
+  // Make sure we don't load a level we don't have
   if(currentLevel < 0 || currentLevel >= levels.length) {
     currentLevel = 0;
   }
+
+  hideTooltip();
 
   level = levels[currentLevel];
 
@@ -386,6 +584,7 @@ function loadLevel(){
   localStorage.setItem("currentLevel",currentLevel);
 
   loadBoard();
+  resetTable();
 
   $(".level-header .level-text").html("Level " + (currentLevel+1) + " of " + levels.length);
 
@@ -397,9 +596,31 @@ function loadLevel(){
   $(".input-wrapper").css("opacity",1);
   $(".result").text("");
 
+  //Strobe what's supposed to be selected
   setTimeout(function(){
-    $(".table " + level.selector).addClass("strobe");
+    $(".room " + level.selector).addClass("strobe");
     $(".pop").removeClass("pop");
   },200);
 
+}
+
+// Popup positioning code from...
+// http://stackoverflow.com/questions/4068373/center-a-popup-window-on-screen
+
+function PopupCenter(url, title, w, h) {
+  // Fixes dual-screen position                         Most browsers      Firefox
+  var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.location.screen.left;
+  var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.location.screen.top;
+
+  var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : window.location.screen.width;
+  var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : window.location.screen.height;
+
+  var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+  var top = ((height / 2) - (h / 2)) + dualScreenTop;
+  var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+  // Puts focus on the newWindow
+  if (window.focus) {
+    newWindow.focus();
+  }
 }

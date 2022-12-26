@@ -7,17 +7,17 @@ var levels = [
       selector : "door",
       syntax : "Door",
       boardMarkup: `
-      <door/>
-      <door/>
+      <door></door>
       `
     },
     {
       selectorName : "Type Selector",
       doThis : "Select the key",
-      selector : "key",
+      selector : "door",
       syntax : "Key",
       boardMarkup: `
-      <key/>
+      <door></door>
+      <door></door>
       `
     },
     {
@@ -72,40 +72,38 @@ var levels = [
       selector : "door",
       syntax : "Door",
       boardMarkup: `
-      <door/>
-      <door/>
+      <door></door>
       `
     },
     {
       selectorName : "Type Selector",
-      doThis : "Select the key",
-      selector : "key",
+      doThis : "Select two door",
+      selector : "door",
       syntax : "Key",
       boardMarkup: `
-      <key/>
+      <door></door>
+      <door></door>
       `
     },
     {
       selectorName : "Type Selector",
-      doThis : "Escape locked room",
+      doThis : "Select three door",
       selector : "door",
       syntax : "Locked Room",
       boardMarkup: `
-      <door/>
-        <locked/>
-      <door/>
+      <door></door>
+      <door></door>
+      <door></door>
       `
     },
     {
       selectorName : "Type Selector",
-      doThis : "Burn room",
+      doThis : "Select water",
       selector : "water",
       syntax : "Burn Room",
       boardMarkup: `
-      <door/>
-        <burn/>
-        <water/>
-      <door/>
+      <door></door>
+      <water></water>
       `
     },
     {
