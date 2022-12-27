@@ -101,7 +101,7 @@ $(document).ready(function(){
   });
 
   //Add tooltips
-  $(".room").on("mouseover","*",function(e){
+  $(".room").not('door-handle').on("mouseover","*",function(e){
     e.stopPropagation();
     showTooltip($(this));
   });
@@ -111,7 +111,7 @@ $(document).ready(function(){
     var el = $(this);
     var markupElements = $(".viewer-field *");
     var index = markupElements.index(el) -1;
-    showTooltip($(".room *").eq(index));
+    showTooltip($(".room *").not('door-handle').eq(index));
     e.stopPropagation();
   });
 
@@ -226,7 +226,7 @@ function showTooltip(el){
   }
 
   el.attr("data-hovered",true);
-  var tableElements = $(".room *");
+  var tableElements = $(".room *").not('door-handle');
   var index = tableElements.index(el);
   var that = el;
   $(".viewer-field > div *").eq(index).addClass("enhance").find("*").addClass("enhance");
@@ -525,6 +525,7 @@ function loadBoard(){
   var boardMarkup = ""; // what is this
   var tableMarkup = ""; // what is this
   var editorMarkup = ""; // this is a string that represents the HTML
+  var addDoorhandle ="<door-handle></door-handle>"
   showHelp();
 
   var markupHolder = $("<div/>")
@@ -539,8 +540,8 @@ function loadBoard(){
   $(".room").html(level.boardMarkup);
   addNametags();
   $(".room *").addClass("pop");
-
-
+  $('door').append(addDoorhandle);
+  
   $(".viewer-field").html('<div>&ltdiv class="room"&gt' + markupHolder.html() + '&lt/div&gt</div>');
 }
 

@@ -24,7 +24,7 @@ function App() {
     <div className='game-wrapper'>
       <div className='room-wrapper'>
         <div className='room-surface'>
-          <img src="img/roomTile.png"/>
+          <img className='imgtest' src="img/roomTile.png"/>
         </div>
         <div className='nametags'></div>
         <div className='room'></div>
@@ -84,6 +84,7 @@ function App() {
         에 문제를 제출하세요.
       </p>
     </div>
+    <div className='helper'></div>
   </div>
   <div className="rightFrame">
     <div className="wrap">
