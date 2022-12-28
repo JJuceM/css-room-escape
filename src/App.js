@@ -1,6 +1,8 @@
 import './App.css';
 import './main.js';
 import './levels.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   return (
@@ -24,7 +26,8 @@ function App() {
     <div className='game-wrapper'>
       <div className='room-wrapper'>
         <div className='room-surface'>
-          <img className='imgtest' src="img/roomTile.png"/>
+          <FontAwesomeIcon icon={faRotateRight} id="restartbtn" className="restart fa-2x"/>
+          <img className='backgroundimg' src="img/roomTile.png"/>
         </div>
         <div className='nametags'></div>
         <div className='room'></div>
@@ -32,7 +35,6 @@ function App() {
       </div>
       
     </div>
-
 
     <div className="viewer">
       <div className="viewer-frame">
@@ -104,14 +106,23 @@ function App() {
         </div>
       </div>
       <div style={{textAlign: 'center'}}>
-        <img style={{height: '700px', width: '100%'}} src="img/inventory.png" />
+      <div className='inventory'>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+      </div>
+        
       </div>
     </div>
     <div className="level-menu scrollBar">
       <h2>레벨을 선택하세요</h2>
-      <div className="levels">       
-        
-      </div>
+      <div className="levels"></div>
+      <a className='reset-progress' href='/#'>초기화</a>
       <div className="cover-bar2" />
     </div>
     <div className='level-menu-toggle-wrapper'>

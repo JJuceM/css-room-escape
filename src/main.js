@@ -31,7 +31,7 @@ var progress = JSON.parse(localStorage.getItem("progress")) || blankProgress;
 
 
 $(document).ready(function(){
-
+  
   $(window).on("keydown",function(e){
     if(e.keyCode == 27) {
       closeMenu();
@@ -625,3 +625,16 @@ function PopupCenter(url, title, w, h) {
     newWindow.focus();
   }
 }
+
+$(document).ready(function(){
+  $('#restartbtn').on("mouseover",function(){
+    $(this).addClass("fa-spin");
+  });
+  $('#restartbtn').on("mouseout",function(){
+    $(this).removeClass("fa-spin");
+  });
+  
+  $("#restartbtn").on("click",function(){
+    window.location.reload();
+  });
+});
