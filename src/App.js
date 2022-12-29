@@ -107,14 +107,15 @@ function App() {
       </div>
       <div style={{textAlign: 'center'}}>
       <div className='inventory'>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
-        <input type="radio" name="test" value="test" className='inventory-box' checked/>
+        
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
+        <input type="checkbox" name="test" value="test" className='inventory-box' />
       </div>
         
       </div>

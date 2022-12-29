@@ -78,7 +78,7 @@ $(document).ready(function(){
   })
 
   //Handle inputs from the input box on enter
-  $("input").on("keypress",function(e){
+  $('input[type="text"]').on("keypress",function(e){
     e.stopPropagation();
     if(e.keyCode ==  13){
       enterHit();
@@ -86,18 +86,18 @@ $(document).ready(function(){
     }
   });
 
-  $("input").on("keyup",function(e){
+  $('input[type="text"]').on("keyup",function(e){
     e.stopPropagation();
     var length = $(this).val().length;
     if(length > 0) {
-      $("input").removeClass("input-css");
+      $('input[type="text"]').removeClass("input-css");
     } else {
-      $("input").addClass("input-css");
+      $('input[type="text"]').addClass("input-css");
     }
   });
 
   $(".viewer").on("click",function(){
-    $("input").focus();
+    $('input[type="text"]').focus();
   });
 
   //Add tooltips
@@ -138,6 +138,20 @@ $(document).ready(function(){
     loadLevel();
     $(".room-wrapper,.table-edge").css("opacity",1);
   },50);
+
+  
+});
+
+$(document).on('click',"input[type='checkbox']",function(){
+  if(this.checked){
+    const checkboxes = $("input[type='checkbox']");
+    for(let ind = 0; ind <checkboxes.length;ind++){
+      checkboxes[ind].checked = false;
+    }
+    this.checked = true;
+  } else{
+    this.checked = false;
+  }
 });
 
 function addAnimation(el, className){
@@ -277,7 +291,7 @@ function enterHit(){
   $(".enter-btn").removeClass("enterhit");
   $(".enter-btn").width($(".enter-btn").width());
   $(".enter-btn").addClass("enterhit");
-  var value = $("input").val();
+  var value = $('input[type="text"]').val();
   handleInput(value);
 }
 
@@ -324,7 +338,7 @@ function resetTable(){
   $(".display-help").removeClass("open-help");
   $(".clean,.strobe").removeClass("clean,strobe");
   $(".clean,.strobe").removeClass("clean,strobe");
-  $("input").addClass("input-css");
+  $('input[type="text"]').addClass("input-css");
   $(".room *").each(function(){
     $(this).width($(this).width());
     // $(this).removeAttr("style");
@@ -391,7 +405,7 @@ function fireRule(rule) {
   if(win){
     ruleSelected.removeClass("strobe");
     ruleSelected.addClass("clean");
-    $("input").val("");
+    $('input[type="text"]').val("");
     $(".input-wrapper").css("opacity",.2);
     updateProgressUI(currentLevel, true);
     currentLevel++;
@@ -592,7 +606,7 @@ function loadLevel(){
   updateProgressUI(currentLevel, checkCompleted(currentLevel));
 
   $(".order").text(level.doThis);
-  $("input").val("").focus();
+  $('input[type="text"]').val("").focus();
 
   $(".input-wrapper").css("opacity",1);
   $(".result").text("");
